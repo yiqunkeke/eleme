@@ -1,6 +1,6 @@
 <template>
-   <transition name="fade" v-show="visible">
-       <div class="header-detail">
+   <transition name="fade">
+       <div class="header-detail" v-show="visible">
            <div class="detail-wrapper clear-fix">
                <div class="detail-main">
                    <h1 class="name">{{seller.name}}</h1>

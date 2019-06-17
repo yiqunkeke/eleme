@@ -1,15 +1,20 @@
 <template>
   <div id="app">
-    <MyHeader :seller="seller"/>
+    <VHeader :seller="seller"/>
+    <div class="tab-wrapp">
+      <Tab/>
+    </div>
   </div>
 </template>
 
 <script>
-import MyHeader from 'components/header.vue'
+import VHeader from 'components/header.vue'
+import Tab from 'components/tab.vue'
 import { getSeller } from 'api'
 export default {
   components: {
-    MyHeader
+    VHeader,
+    Tab
   },
   data() {
     return {
