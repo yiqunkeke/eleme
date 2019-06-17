@@ -10,7 +10,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'space-before-function-paren': 0, // 设置----不校验函数名括号空格
+    'space-before-function-paren': 0, // 设置----不校验函数名左括号前的空格
     'indent': 0 // 设置----不校验缩进
   },
   parserOptions: {

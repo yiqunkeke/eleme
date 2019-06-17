@@ -53,9 +53,8 @@ module.exports = {
     // chainWebpack ---> 允许对内部的 webpack 配置进行更细粒度的修改
     // 1. resolve：配置模块如何被解析。
     // 2. resolve.alias：创建别名可以更容易的找到某个固定模块。（来代替用相对路径引入模块）
-    // ~：表示通过resolve.modules定义的文件夹（此处对应着src和node_modules）(重点！！！)
     config.resolve.alias
-      .set('assets', resolve('src/assets')) // assets
+      .set('stylus', resolve('src/assets/stylus')) // stylus
       .set('components', resolve('src/components')) // components
   }
 

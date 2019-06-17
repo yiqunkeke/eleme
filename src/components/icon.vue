@@ -1,5 +1,5 @@
 <template>
-  <span class="support-ico" :class="iconCls">12</span>
+  <span class="support-ico" :class="iconCls"></span>
 </template>
 
 <script>
@@ -22,6 +22,6 @@
   }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
   @import "~assets/stylus/icon/index"
 </style>

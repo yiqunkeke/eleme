@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <Icon :size="12" :type="1"/>
+    <MyHeader/>
   </div>
 </template>
 
 <script>
-import Icon from 'components/icon.vue'
+import MyHeader from 'components/header.vue'
 export default {
   components: {
-    Icon
+    MyHeader
   }
 }
 </script>
