@@ -2,7 +2,7 @@
    <div class="header">
        <div class="content-wrapper">
            <div class="avatar">
-               <img :src="seller.avatar" alt="">
+               <img :src="seller.avatar" alt="" width="64" height="64">
                <!-- 知识点：因为给seller设置了default值为{}，所以在使用seller对象的一级属性时，不会报TypeError: Cannot read property 'avatar' of undefined -->
            </div>
            <div class="content">
@@ -14,7 +14,8 @@
                    {{seller.description}}/{{seller.deliveryTime}}分钟送达
                </div>
                <div class="support" v-if="seller.supports">
-                   <Icon :size=1 type="seller.supports[0].type" />
+                   <Icon :size=1 :type="seller.supports[0].type" />
+                   <span class="text">{{seller.supports[0].description}}</span>
                    <!-- 知识点：在使用对象的深层属性时，外层必须要做一次v-if判断父级属性，才不会报TypeError: Cannot read property 'avatar' of undefined -->
                </div>
            </div>

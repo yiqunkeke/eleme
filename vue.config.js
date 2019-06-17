@@ -29,6 +29,7 @@ module.exports = {
   devServer: {
     // devServer ---> 所有 webpack-dev-server 的选项都支持
     before(app, server) {
+      // 定义接口地址
       app.get('/api/seller', function(req, res) {
         res.json({
           code: 0,
@@ -56,6 +57,6 @@ module.exports = {
     config.resolve.alias
       .set('stylus', resolve('src/assets/stylus')) // stylus
       .set('components', resolve('src/components')) // components
-  }
-
+      .set('api', resolve('src/api')) // api
+    }
 }

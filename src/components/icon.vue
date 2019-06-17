@@ -23,5 +23,5 @@
 </script>
 
 <style lang="stylus">
-  @import "~assets/stylus/icon/index"
+  @import "~stylus/icon/index"
 </style>
