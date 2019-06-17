@@ -1,18 +1,15 @@
 <template>
   <div id="app">
     <MyHeader :seller="seller"/>
-    <HeaderDetail :seller="seller"/>
   </div>
 </template>
 
 <script>
 import MyHeader from 'components/header.vue'
-import HeaderDetail from 'components/headerDetail.vue'
 import { getSeller } from 'api'
 export default {
   components: {
-    MyHeader,
-    HeaderDetail
+    MyHeader
   },
   data() {
     return {

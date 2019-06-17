@@ -51,9 +51,19 @@ export default {
         Icon
    },
    methods: {
-       showDetail(){
-           
+        // cube-ui提供 create-api 模块，它可以把任何一个组件变成 api式的调用（也叫“命令式”调用 ）-----（通常组件都是通过“声明式”来调用。）
+        // 并且，调用完之后，会把组件动态挂载都body下面（create-api的核心功能）。
+       showDetail() {
+           this.headerDetailComp = this.headerDetailComp ||
+           this.$createHeaderDetail({
+               // $props: 传递给组件的 Props
+               $props: {
+                   seller: 'seller'
+               }
+           })
+           this.headerDetailComp.show()
        }
+       // 通常情况下，我们调用alert弹窗时，都是通过命令式调用，也就是调用api。而不是去声明式的调用alert组件。
    }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-   <transition name="fade">
+   <transition name="fade" v-show="visible">
        <div class="header-detail">
            <div class="detail-wrapper clear-fix">
                <div class="detail-main">
@@ -14,6 +14,7 @@
                     </div>
                     <ul v-if="seller.supports" class="supports">
                         <li class="support-item" v-for="(item,index) in seller.supports" :key="item.id">
+                        <!-- 引用Icon组件，是声明式的写法 -->
                         <Icon :size=2 :type="seller.supports[index].type" />
                         <span class="text">{{seller.supports[index].description}}</span>
                         </li>
@@ -28,21 +29,27 @@
                     </div>
                </div>
            </div>
-           <div class="detail-close">
+           <div class="detail-close" @click="hide">
                <i class="icon-close"></i>
            </div>
        </div>
    </transition>
+   <!-- 通常：可以通过 标识位 的方式来控制headerDetail组件的显隐。
+        但不是最优的方案
+        最好把所有的“弹屏或者弹窗”组件都放置在body下。保证样式不会受父元素样式影响。
+        所以，使用 cube-ui 的 create-api 模块来实现。
+         -->
 </template>
 
 <script>
 import Star from 'components/star.vue'
 import Icon from 'components/icon.vue'
 export default {
+   name: 'headerDetail', // 该组件被createAPI调用，所以必须有name属性
    props: {
        seller: {
            type: Object,
-           default:() => {
+           default: () => {
                return {}
            }
        }
@@ -50,6 +57,19 @@ export default {
    components: {
        Star,
        Icon
+   },
+   data() {
+       return {
+           visible: false
+       }
+   },
+   methods: {
+       show() {
+           this.visible = true
+       },
+       hide() {
+           this.visible = false
+       }
    }
 }
 </script>
