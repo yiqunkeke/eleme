@@ -1,5 +1,5 @@
 <template>
-   <div class="header">
+   <div class="header" @click="showDetail">
        <div class="content-wrapper">
            <div class="avatar">
                <img :src="seller.avatar" alt="" width="64" height="64">
@@ -49,6 +49,11 @@ export default {
    },
    components: {
         Icon
+   },
+   methods: {
+       showDetail(){
+           
+       }
    }
 }
 </script>

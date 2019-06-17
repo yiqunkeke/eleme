@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const ERR_CODE = 0
 
-// 封装 get 方法
+// 封装 axios.get 方法
 export function get(url) {
     // 柯里化---->查阅文档了解
     return function (params) {
