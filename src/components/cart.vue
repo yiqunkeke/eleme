@@ -8,7 +8,7 @@
                        <i class="icon-shopping_cart" :class="{'highlight': totalCount > 0}"></i>
                    </div>
                    <div class="num" v-if="totalCount > 0">
-                       <!-- 数字提示组件：抽象出来，以便复用 -->
+                       <!-- bubble组件：抽象出来，以便复用 -->
                        <Bubble :num="totalCount"/>
                    </div>
                </div>

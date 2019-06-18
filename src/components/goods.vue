@@ -34,6 +34,7 @@
                           <span class="old" v-if="it.oldPrice">￥{{it.oldPrice}}</span>
                         </div>
                         <div class="cart-control-wrapper">
+                          <!-- 步进器 -->
                           <Stepper :food="it"/>
                         </div>
                     </div>
