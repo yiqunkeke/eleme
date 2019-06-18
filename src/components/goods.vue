@@ -1,5 +1,6 @@
 <template>
   <div class="goods">
+    <!-- 商品列表 -->
     <div class="scroll-nav-wrapper">
       <cube-scroll-nav
           :side=true
@@ -36,12 +37,18 @@
             </li>
           </ul>
           </cube-scroll-nav-panel>
-        </cube-scroll-nav>
+      </cube-scroll-nav>
+    </div>
+    <!-- 购物车 -->
+    <div class="shop-cart-wrapper">
+        <Cart :deliveryPrice="seller.deliveryPrice"
+              :minPrice="seller.minPrice"/>
     </div>
   </div>
 </template>
 
 <script>
+import Cart from 'components/cart.vue'
 import { getGoods } from 'api'
 export default {
   name: 'goods',
@@ -51,6 +58,14 @@ export default {
       default() {
         return {}
       }
+    }
+  },
+  components: {
+    Cart
+  },
+  computed: {
+    seller() {
+      return this.data.seller
     }
   },
   data() {
