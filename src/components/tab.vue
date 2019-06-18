@@ -18,7 +18,7 @@
             @scroll="onScroll"
         >
             <cube-slide-item v-for="(item, idx) in tabs" :key="idx">
-               <component :is="item.component" :data="item.data"></component>
+               <component :is="item.component" :data="item.data" ref="component"></component>
             </cube-slide-item>
         </cube-slide>
       </div>
@@ -67,12 +67,20 @@ export default {
           }
       }
   },
+  mounted() {
+      this.onChange(this.index) // 页面首次渲染时，也需加载数据
+  },
   methods: {
-      // 实现：当滑动下方内容时，切换上方tab的文字
+      // 实现：当滑动下方内容时，切换上方tab的文字,并获取对应组件的数据
       onChange(curIndex) {
           // 直接去改 selectedLabel 的依赖项
           this.index = curIndex
           // this.selectedLabel = this.tabs[curIndex].label
+
+          // 1. 切换tab时，获取下方组件的引用
+          const component = this.$refs.component[curIndex]
+          // 2. 调用组件中的 fetch()方法
+          component.fetch && component.fetch()
       },
       // 实现：当滑动下方过程中，横线下标也跟着滑动（而不是滑动结束后，横线才滑动）
       onScroll(pos) {
