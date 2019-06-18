@@ -7,7 +7,10 @@
                    <div class="logo" :class="{'highlight': totalCount > 0}">
                        <i class="icon-shopping_cart" :class="{'highlight': totalCount > 0}"></i>
                    </div>
-                   <div class="num" v-if="totalCount > 0"></div>
+                   <div class="num" v-if="totalCount > 0">
+                       <!-- 数字提示组件：抽象出来，以便复用 -->
+                       <Bubble :num="totalCount"/>
+                   </div>
                </div>
                <div class="price" :class="{'highlight': totalPrice > 0}">
                    {{totalPrice}}
@@ -25,8 +28,12 @@
 </template>
 
 <script>
+import Bubble from 'components/bubble.vue'
 export default {
    name: 'cart',
+   components: {
+       Bubble
+   },
    props: {
        selectFoods: { // 选中的商品
             type: Array,

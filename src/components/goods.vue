@@ -33,6 +33,9 @@
                           <span class="now">￥{{it.price}}</span>
                           <span class="old" v-if="it.oldPrice">￥{{it.oldPrice}}</span>
                         </div>
+                        <div class="cart-control-wrapper">
+                          <Stepper :food="it"/>
+                        </div>
                     </div>
             </li>
           </ul>
@@ -42,12 +45,15 @@
     <!-- 购物车 -->
     <div class="shop-cart-wrapper">
         <Cart :deliveryPrice="seller.deliveryPrice"
-              :minPrice="seller.minPrice"/>
+              :minPrice="seller.minPrice"
+              :selectFoods="selectFoods"
+              />
     </div>
   </div>
 </template>
 
 <script>
+import Stepper from 'components/stepper.vue'
 import Cart from 'components/cart.vue'
 import { getGoods } from 'api'
 export default {
@@ -61,11 +67,23 @@ export default {
     }
   },
   components: {
+    Stepper,
     Cart
   },
   computed: {
     seller() {
       return this.data.seller
+    },
+    selectFoods() { // 选中的商品
+        let ret = []
+        this.goods.forEach(item => {
+          item.foods.forEach(it => {
+            if (it.count) {
+              ret.push(it)
+            }
+          })
+        })
+        return ret
     }
   },
   data() {
