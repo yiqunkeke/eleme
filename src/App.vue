@@ -2,7 +2,7 @@
   <div id="app">
     <VHeader :seller="seller"/>
     <div class="tab-wrapper">
-      <Tab/>
+      <Tab :tabs="tabs" :initialIndex=0 />
     </div>
   </div>
 </template>
@@ -10,11 +10,42 @@
 <script>
 import VHeader from 'components/header.vue'
 import Tab from 'components/tab.vue'
+import Goods from 'components/goods.vue' // Tab组件数据中用到的 组件
+import Ratings from 'components/ratings.vue'
+import Seller from 'components/seller.vue'
 import { getSeller } from 'api'
+
 export default {
   components: {
     VHeader,
     Tab
+  },
+  computed: {
+    tabs() {
+      return [
+              {
+                  label: '商品',
+                  component: Goods,
+                  data: {
+                    seller: this.seller
+                  }
+              },
+              {
+                  label: '评论',
+                  component: Ratings,
+                  data: {
+                    seller: this.seller
+                  }
+              },
+              {
+                  label: '商家',
+                  component: Seller,
+                  data: {
+                    seller: this.seller
+                  }
+              }
+        ]
+    }
   },
   data() {
     return {

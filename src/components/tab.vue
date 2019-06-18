@@ -17,44 +17,36 @@
             @change="onChange"
             @scroll="onScroll"
         >
-            <cube-slide-item>
-               <Goods />
-            </cube-slide-item>
-            <cube-slide-item>
-               <Ratings />
-            </cube-slide-item>
-            <cube-slide-item>
-               <Seller />
+            <cube-slide-item v-for="(item, idx) in tabs" :key="idx">
+               <component :is="item.component" :data="item.data"></component>
             </cube-slide-item>
         </cube-slide>
       </div>
   </div>
+  <!-- 把tab组件抽象和封装：
+            1. 使得组件没有耦合任何数据。
+            2. 扩展灵活（增加一个tab并不需要修改tab组件的代码，直接在父组件中修改数据即可）。
+            3. 代码逻辑清晰。（tab组件只维护数据的展示以及上下联动效果，以及怎么渲染组件也不关心。）实现了代码的充分解耦。
+  -->
 </template>
 
 <script>
-import Goods from 'components/goods.vue'
-import Ratings from 'components/ratings.vue'
-import Seller from 'components/seller.vue'
 export default {
-    components: {
-        Goods,
-        Ratings,
-        Seller
+    props: {
+        tabs: {
+            type: Array,
+            default() {
+                return []
+            }
+        },
+        initialIndex: {
+            type: Number,
+            default: 0
+        }
     },
   data() {
     return {
-        index: 0,
-        tabs: [
-            {
-                label: '商品'
-            },
-            {
-                label: '评论'
-            },
-            {
-                label: '商家'
-            }
-        ],
+        index: this.initialIndex,
         // 监听 scroll事件时，必须有此项
         slideOptions: {
             listenScroll: true,
