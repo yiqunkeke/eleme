@@ -17,6 +17,7 @@
 </template>
 
 <script>
+const EVENT_ADD = 'add'
 export default {
    name: 'stepper',
    props: {
@@ -28,13 +29,15 @@ export default {
        }
    },
     methods: {
-        add() {
+        add(event) {
+            // console.log(event);
             if (!this.food.count) {
                 // 因为count不是food数据自带属性，所以需要用 $set() API 给food数据，响应式的增加count属性
                 this.$set(this.food, 'count', 1)
             } else {
                 this.food.count++
             }
+            this.$emit(EVENT_ADD, event.target) // 实现小球飞入动画：1. 派发事件，并传DOM
         },
         decrease() {
             if (this.food.count) { // 如果 count > 0 时，自减

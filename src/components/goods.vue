@@ -35,7 +35,7 @@
                         </div>
                         <div class="cart-control-wrapper">
                           <!-- 步进器 -->
-                          <Stepper :food="it"/>
+                          <Stepper :food="it" @add="onAdd"/>
                         </div>
                     </div>
             </li>
@@ -48,6 +48,7 @@
         <Cart :deliveryPrice="seller.deliveryPrice"
               :minPrice="seller.minPrice"
               :selectFoods="selectFoods"
+              ref="cart"
               />
     </div>
   </div>
@@ -102,6 +103,10 @@ export default {
       getGoods().then(goods => {
         this.goods = goods
       })
+    },
+    onAdd(el) {
+      // 驱动购物车cart组件的 drop() 函数---> 实现小球飞入动画
+      this.$refs.cart.drop(el)
     }
   }
 }
