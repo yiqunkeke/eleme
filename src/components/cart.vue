@@ -1,6 +1,6 @@
 <template>
    <div class="shopcart">
-       <div class="content">
+       <div class="content" @click="toggleCartList">
            <!--  logo 和 配送费-->
            <div class="content-left">
                <div class="logo-wrapper">
@@ -118,6 +118,7 @@ export default {
     },
     created() {
         this.dropBalls = []
+        this.cartListFold = true // 标志cartList的显隐
     },
     methods: {
         // 实现小球飞入动画函数
@@ -154,6 +155,34 @@ export default {
             if (ball) {
                 ball.show = false
                 el.style.display = 'none'
+            }
+        },
+        // 切换购物车列表 cartList 组件的显隐
+        toggleCartList() {
+            // 1. 如果总数量为0，则直接返回，不做任何操作
+            if (!this.totalCount) {
+               return
+            }
+            // 2. 定义 create-api 组件实例
+            // 用 || 运算符，做一个缓存
+            this.cartListComp = this.cartListComp || this.$createCartList({
+                $props: {
+                    selectFoods: 'selectFoods' // 这里一定要写成字符串方式，来保证是响应式的
+                },
+                $events: { // 事件回调（查阅官方API）
+                    hide: () => {
+                        this.cartListFold = true // 点击蒙层时，设置 cartListFold 为隐藏
+                    }
+                }
+            })
+            // 3. 收起时---> 显示
+            if (this.cartListFold) {
+                this.cartListComp.show()
+                this.cartListFold = false
+            } else {
+                // 展开时---> 隐藏
+                this.cartListComp.hide()
+                this.cartListFold = true
             }
         }
     }
