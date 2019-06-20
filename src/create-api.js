@@ -4,7 +4,9 @@ import { createAPI } from 'cube-ui'
 import Vue from 'vue'
 import HeaderDetail from 'components/headerDetail'
 import CartList from 'components/cartList'
+import CartSticky from 'components/cartSticky'
 
 // 创建 this.$createHeaderDetail
 createAPI(Vue, HeaderDetail)
 createAPI(Vue, CartList)
+createAPI(Vue, CartSticky)

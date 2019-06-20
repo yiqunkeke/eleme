@@ -175,13 +175,23 @@ export default {
                     }
                 }
             })
+            this.cartStickyComp = this.cartStickyComp || this.$createCartSticky({
+                $props: {
+                    selectFoods: 'selectFoods',
+                    deliveryPrice: 'deliveryPrice',
+                    minPrice: 'minPrice'
+                }
+            })
+            console.log(this.cartStickyComp);
             // 3. 收起时---> 显示
             if (this.cartListFold) {
                 this.cartListComp.show()
+                this.cartStickyComp.show()
                 this.cartListFold = false
             } else {
                 // 展开时---> 隐藏
                 this.cartListComp.hide()
+                this.cartStickyComp.hide()
                 this.cartListFold = true
             }
         }
