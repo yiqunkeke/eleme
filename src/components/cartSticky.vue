@@ -3,6 +3,8 @@
        <Cart :selectFoods="selectFoods"
              :deliveryPrice="deliveryPrice"
              :minPrice="minPrice"
+             :fold="fold"
+             :sticky=true
              ref="cart"
        />
    </div>
@@ -29,7 +31,17 @@ export default {
        minPrice: {
            type: Number,
            default: 0
-       }
+       },
+       fold: {
+            type: Boolean,
+            default: true
+        },
+        list: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
    },
    data() {
        return {

@@ -76,6 +76,14 @@ export default {
         minPrice: { // 最低起送费
             type: Number,
             default: 0
+        },
+        fold: { // 由cartSticky组件传递进来
+            type: Boolean,
+            default: true
+        },
+        sticky: {
+            type: Boolean,
+            default: false
         }
    },
     computed: {
@@ -113,12 +121,12 @@ export default {
     },
     data() {
         return {
-            balls: createBalls()
+            balls: createBalls(),
+            listFold: this.fold // 标志cartList的显隐
         }
     },
     created() {
         this.dropBalls = []
-        this.cartListFold = true // 标志cartList的显隐
     },
     methods: {
         // 实现小球飞入动画函数
@@ -171,7 +179,10 @@ export default {
                 },
                 $events: { // 事件回调（查阅官方API）
                     hide: () => {
-                        this.cartListFold = true // 点击蒙层时，设置 cartListFold 为隐藏
+                        this.listFold = true // 点击蒙层时，设置 cartListFold 为隐藏
+                    },
+                    leave: () => {
+                        this.cartStickyComp.hide() // cartList组件动画结束时，cartSticky 隐藏
                     }
                 }
             })
@@ -179,20 +190,22 @@ export default {
                 $props: {
                     selectFoods: 'selectFoods',
                     deliveryPrice: 'deliveryPrice',
-                    minPrice: 'minPrice'
+                    minPrice: 'minPrice',
+                    fold: 'listFold',
+                    list: this.cartListComp
                 }
             })
-            console.log(this.cartStickyComp);
             // 3. 收起时---> 显示
-            if (this.cartListFold) {
+            if (this.listFold) {
                 this.cartListComp.show()
                 this.cartStickyComp.show()
-                this.cartListFold = false
+                this.listFold = false
             } else {
                 // 展开时---> 隐藏
-                this.cartListComp.hide()
+                const comp = this.sticky ? this.$parent.list : this.cartListComp
+                comp.hide && comp.hide()
                 this.cartStickyComp.hide()
-                this.cartListFold = true
+                this.listFold = true
             }
         }
     }

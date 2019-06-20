@@ -8,7 +8,7 @@
                     v-show="visible"
                     @mask-click="hide"
         >
-            <transition name="move">
+            <transition name="move" @after-leave="afterLeave">
                 <div v-show="visible">
                     <div class="list-header">
                         <h1 class="title">购物车</h1>
@@ -39,6 +39,7 @@
 <script>
 import Stepper from 'components/stepper.vue'
 const EVENT_HIDE = 'hide'
+const EVENT_LEAVE = 'leave'
 export default {
    name: 'cartList', // 该组件被createAPI调用，所以必须有name属性
    components: {
@@ -65,6 +66,9 @@ export default {
        hide() {
            this.visible = false
            this.$emit(EVENT_HIDE)
+       },
+       afterLeave() {
+           this.$emit(EVENT_LEAVE)
        }
    }
 }
