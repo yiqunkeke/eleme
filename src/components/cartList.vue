@@ -25,7 +25,7 @@
                                     ￥{{item.price * item.count}}
                                 </div>
                                 <div class="cart-control-wrapper">
-                                    <Stepper :food="item"/>
+                                    <Stepper :food="item" @add="onAdd"/>
                                 </div>
                             </li>
                         </ul>
@@ -40,6 +40,7 @@
 import Stepper from 'components/stepper.vue'
 const EVENT_HIDE = 'hide'
 const EVENT_LEAVE = 'leave'
+const EVENT_ADD = 'add'
 export default {
    name: 'cartList', // 该组件被createAPI调用，所以必须有name属性
    components: {
@@ -69,6 +70,9 @@ export default {
        },
        afterLeave() {
            this.$emit(EVENT_LEAVE)
+       },
+       onAdd(target) {
+           this.$emit(EVENT_ADD, target)
        }
    }
 }

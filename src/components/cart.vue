@@ -195,13 +195,16 @@ export default {
                 $props: {
                     selectFoods: 'selectFoods' // 这里一定要写成字符串方式，来保证是响应式的
                 },
-                $events: { // 事件回调（查阅官方API）
+                $events: { // 事件回调（查阅官方API）----监听子组件中触发的事件
                     hide: () => {
                         this.listFold = true // 点击蒙层时，设置 cartListFold 为隐藏
                         // this._hideCartSticky()
                     },
                     leave: () => {
                         this._hideCartSticky() // cartList组件动画结束时，cartSticky 隐藏
+                    },
+                    add: (el) => {
+                        this.cartStickyComp.drop(el)
                     }
                 }
             })
