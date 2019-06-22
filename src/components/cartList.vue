@@ -12,7 +12,7 @@
                 <div v-show="visible">
                     <div class="list-header">
                         <h1 class="title">购物车</h1>
-                        <span class="empty">清空</span>
+                        <span class="empty" @click="empty">清空</span>
                     </div>
                     <cube-scroll class="list-content" ref="listContent">
                         <ul>
@@ -63,6 +63,10 @@ export default {
        // 定义函数供调用
        show() {
            this.visible = true
+           this.$nextTick(() => {
+               this.$refs.listContent.refresh() // 重新计算cube-scroll高度，以实现购物车列表滚动
+               // 查阅官方文档： refresh() --->  刷新，重新计算高度且刷新 BetterScroll 实例
+           })
        },
        hide() {
            this.visible = false
@@ -73,6 +77,23 @@ export default {
        },
        onAdd(target) {
            this.$emit(EVENT_ADD, target)
+       },
+       empty() {
+           this.dialogComp = this.dialogComp || this.$createDialog({
+               type: 'confirm',
+               tilte: '清空购物车',
+               content: '确认清空吗',
+               $events: { // 监听内部事件
+                   confirm: () => {
+                       this.selectFoods.forEach(item => {
+                           item.count = 0
+                       })
+                       this.hide()
+                   }
+               }
+           })
+
+           this.dialogComp.show()
        }
    }
 }

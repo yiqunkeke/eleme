@@ -19,7 +19,7 @@
            </div>
             <!-- 按钮 -->
            <div class="content-right">
-               <div class="pay" :class="payClass">
+               <div class="pay" :class="payClass" @click.stop="pay">
                    {{payDesc}}
                </div>
            </div>
@@ -122,6 +122,11 @@ export default {
     watch: {
         fold(newVal) {
             this.listFold = newVal
+        },
+        totalCount(newVal) {
+            if (!this.listFold && !newVal) {
+                this._hideCartList()
+            }
         }
     },
     data() {
@@ -231,6 +236,16 @@ export default {
         // Sticky组件----create-api 隐藏
         _hideCartSticky() {
             this.cartStickyComp.hide()
+        },
+        pay() {
+            if (this.totalPrice < this.minPrice) {
+                return
+            }
+            this.dialogComp = this.$createDialog({
+               tilte: '支付',
+               content: `支付${this.totalPrice}元`
+            })
+            this.dialogComp.show()
         }
     }
 }
