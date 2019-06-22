@@ -38,10 +38,13 @@
 
 <script>
 import Stepper from 'components/stepper.vue'
-const EVENT_HIDE = 'hide'
+import popupMixin from 'js/mixins/popup'
+
+const EVENT_SHOW = 'show'
 const EVENT_LEAVE = 'leave'
 const EVENT_ADD = 'add'
 export default {
+   mixins: [ popupMixin ],
    name: 'cartList', // 该组件被createAPI调用，所以必须有name属性
    components: {
        Stepper
@@ -54,24 +57,17 @@ export default {
            }
        }
    },
-   data() {
-       return {
-           visible: false
-       }
-   },
-   methods: {
-       // 定义函数供调用
-       show() {
-           this.visible = true
+   created() {
+       // 因为使用 mixins 混入了 show方法，所以在此进行监听，把剩下的事情放入回调
+       this.$on(EVENT_SHOW, () => {
            this.$nextTick(() => {
                this.$refs.listContent.refresh() // 重新计算cube-scroll高度，以实现购物车列表滚动
                // 查阅官方文档： refresh() --->  刷新，重新计算高度且刷新 BetterScroll 实例
            })
-       },
-       hide() {
-           this.visible = false
-           this.$emit(EVENT_HIDE)
-       },
+       })
+   },
+   methods: {
+       // 定义函数供调用
        afterLeave() {
            this.$emit(EVENT_LEAVE)
        },
@@ -79,10 +75,9 @@ export default {
            this.$emit(EVENT_ADD, target)
        },
        empty() {
-           this.dialogComp = this.dialogComp || this.$createDialog({
+           this.$createDialog({
                type: 'confirm',
-               tilte: '清空购物车',
-               content: '确认清空吗',
+               content: '确认清空吗？',
                $events: { // 监听内部事件
                    confirm: () => {
                        this.selectFoods.forEach(item => {
@@ -91,9 +86,7 @@ export default {
                        this.hide()
                    }
                }
-           })
-
-           this.dialogComp.show()
+           }).show()
        }
    }
 }

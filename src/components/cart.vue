@@ -243,7 +243,7 @@ export default {
             }
             this.dialogComp = this.$createDialog({
                tilte: '支付',
-               content: `支付${this.totalPrice}元`
+               content: `您需要支付${this.totalPrice}元`
             })
             this.dialogComp.show()
         }

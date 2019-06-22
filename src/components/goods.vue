@@ -157,9 +157,13 @@ export default {
   methods: {
     // 获取 goods 数据
     fetch() {
-      getGoods().then(goods => {
-        this.goods = goods
-      })
+      if (!this.fetched) {
+        // 使用 fetched 标志位来判断数据是否获取过。达到来回切换三个tab时，不会重复发送网络请求
+        this.fetched = true
+        getGoods().then(goods => {
+          this.goods = goods
+        })
+      }
     },
     onAdd(el) {
       // 驱动购物车cart组件的 drop() 函数---> 实现小球飞入动画

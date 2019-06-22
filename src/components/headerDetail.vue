@@ -44,7 +44,13 @@
 <script>
 import Star from 'components/star.vue'
 import Icon from 'components/icon.vue'
+import popupMixin from 'js/mixins/popup'
 export default {
+    // 混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。
+    // 一个混入对象可以包含任意组件选项。
+    // 当组件使用混入对象时，所有混入对象的选项将被“混合”进入该组件本身的选项。
+    // 查阅 vue 官方文档
+   mixins: [ popupMixin ],
    name: 'headerDetail', // 该组件被createAPI调用，所以必须有name属性
    props: {
        seller: {
@@ -57,19 +63,6 @@ export default {
    components: {
        Star,
        Icon
-   },
-   data() {
-       return {
-           visible: false
-       }
-   },
-   methods: {
-       show() {
-           this.visible = true
-       },
-       hide() {
-           this.visible = false
-       }
    }
 }
 </script>

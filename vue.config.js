@@ -58,5 +58,6 @@ module.exports = {
       .set('stylus', resolve('src/assets/stylus')) // stylus
       .set('components', resolve('src/components')) // components
       .set('api', resolve('src/api')) // api
+      .set('js', resolve('src/assets/js')) // js
     }
 }

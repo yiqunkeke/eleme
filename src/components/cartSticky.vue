@@ -12,7 +12,9 @@
 
 <script>
 import Cart from 'components/cart.vue'
+import popupMixin from 'js/mixins/popup'
 export default {
+   mixins: [ popupMixin ],
    name: 'cartSticky',
    components: {
        Cart // 内部依赖cart组件
@@ -43,18 +45,7 @@ export default {
             }
         }
    },
-   data() {
-       return {
-           visible: false
-       }
-   },
    methods: {
-       show() { // 通过定义show()和 hide()方法来控制该组件的显示和隐藏
-           this.visible = true
-       },
-       hide() {
-           this.visible = false
-       },
        drop(el) {
            this.$refs.cart.drop(el)
        }
