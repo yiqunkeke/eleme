@@ -15,7 +15,7 @@ import Cart from 'components/cart.vue'
 export default {
    name: 'cartSticky',
    components: {
-       Cart
+       Cart // 内部依赖cart组件
    },
    props: {
        selectFoods: {
@@ -49,7 +49,7 @@ export default {
        }
    },
    methods: {
-       show() {
+       show() { // 通过定义show()和 hide()方法来控制该组件的显示和隐藏
            this.visible = true
        },
        hide() {

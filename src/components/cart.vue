@@ -83,7 +83,7 @@ export default {
         },
         sticky: {
             type: Boolean,
-            default: false
+            default: false // 默认不是sticky组件
         }
    },
     computed: {
@@ -117,6 +117,11 @@ export default {
            } else {
                return 'enough'
            }
+        }
+    },
+    watch: {
+        fold(newVal) {
+            this.listFold = newVal
         }
     },
     data() {
@@ -167,46 +172,62 @@ export default {
         },
         // 切换购物车列表 cartList 组件的显隐
         toggleCartList() {
-            // 1. 如果总数量为0，则直接返回，不做任何操作
+            // 如果总数量为0，则直接返回，不做任何操作
             if (!this.totalCount) {
                return
             }
-            // 2. 定义 create-api 组件实例
-            // 用 || 运算符，做一个缓存
+            //  收起时---> 显示
+            if (this.listFold) {
+                this._showCartList()
+                this._showCartSticky()
+                this.listFold = false
+            } else {
+                // 展开时---> 隐藏
+                this._hideCartList()
+                this.listFold = true
+            }
+        },
+        // List 组件----create-api---显示
+        _showCartList() {
             this.cartListComp = this.cartListComp || this.$createCartList({
+                 // 定义 create-api 组件实例
+                 // 用 || 运算符，做一个缓存
                 $props: {
                     selectFoods: 'selectFoods' // 这里一定要写成字符串方式，来保证是响应式的
                 },
                 $events: { // 事件回调（查阅官方API）
                     hide: () => {
                         this.listFold = true // 点击蒙层时，设置 cartListFold 为隐藏
+                        // this._hideCartSticky()
                     },
                     leave: () => {
-                        this.cartStickyComp.hide() // cartList组件动画结束时，cartSticky 隐藏
+                        this._hideCartSticky() // cartList组件动画结束时，cartSticky 隐藏
                     }
                 }
             })
+            this.cartListComp.show()
+        },
+        // List 组件----create-api----隐藏
+        _hideCartList() {
+            const comp = this.sticky ? this.$parent.list : this.cartListComp
+            comp.hide && comp.hide()
+        },
+        // Sticky组件----create-api 显示
+        _showCartSticky() {
             this.cartStickyComp = this.cartStickyComp || this.$createCartSticky({
                 $props: {
                     selectFoods: 'selectFoods',
                     deliveryPrice: 'deliveryPrice',
                     minPrice: 'minPrice',
                     fold: 'listFold',
-                    list: this.cartListComp
+                    list: this.cartListComp // 把 List组件传给 Sticky 组件
                 }
             })
-            // 3. 收起时---> 显示
-            if (this.listFold) {
-                this.cartListComp.show()
-                this.cartStickyComp.show()
-                this.listFold = false
-            } else {
-                // 展开时---> 隐藏
-                const comp = this.sticky ? this.$parent.list : this.cartListComp
-                comp.hide && comp.hide()
-                this.cartStickyComp.hide()
-                this.listFold = true
-            }
+            this.cartStickyComp.show()
+        },
+        // Sticky组件----create-api 隐藏
+        _hideCartSticky() {
+            this.cartStickyComp.hide()
         }
     }
 }
