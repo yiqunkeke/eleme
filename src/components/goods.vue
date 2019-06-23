@@ -55,6 +55,7 @@
                 <li class="food-item"
                     v-for="it in item.foods"
                     :key="it.name"
+                    @click="handleFood(it)"
                     >
                     <div class="icon">
                         <img :src="it.icon" width="57" height="57">
@@ -151,7 +152,8 @@ export default {
       scrollOptions: {
         click: false, // 阻止click冒泡
         directionLockThreshold: 0
-      }
+      },
+      curFood: {}
     }
   },
   methods: {
@@ -168,6 +170,18 @@ export default {
     onAdd(el) {
       // 驱动购物车cart组件的 drop() 函数---> 实现小球飞入动画
       this.$refs.cart.drop(el)
+    },
+    handleFood(food) {
+      this.curFood = food
+      this._showFood()
+    },
+    _showFood() {
+      this.foodComp = this.foodComp || this.$createFood({
+        $props: {
+          food: 'curFood'
+        }
+      })
+      this.foodComp.show()
     }
   }
 }
