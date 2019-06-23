@@ -72,7 +72,7 @@
                   </p>
                 </li>
               </ul>
-              <div class="no-rating" v-show="!ratings || !ratings.length">暂无评价</div>
+              <div class="no-rating" v-show="!computedRatings || !computedRatings.length">暂无评价</div>
             </div>
           </div>
         </div>
