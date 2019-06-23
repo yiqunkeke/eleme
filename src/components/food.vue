@@ -29,7 +29,7 @@
             </div>
             <div class="cart-control-wrapper">
               <!-- 步进器 -->
-              <Stepper :food="food"/>
+              <Stepper :food="food" @add="addFood"/>
             </div>
             <transition name="fade">
               <div class="buy" v-show="!food.count" @click.stop="addFirst">
@@ -58,6 +58,7 @@ import Stepper from 'components/stepper.vue'
 
 const EVENT_SHOW = 'show'
 const EVENT_LEAVE = 'leave'
+const EVENT_ADD = 'add'
 
 export default {
   mixins: [ popupMixin ],
@@ -85,9 +86,12 @@ export default {
     afterLeave() {
       this.$emit(EVENT_LEAVE)
     },
-    addFirst() {
+    addFirst(event) {
       this.$set(this.food, 'count', 1)
       this.$emit(EVENT_ADD, event.target)
+    },
+    addFood(target) {
+      this.$emit(EVENT_ADD, target)
     }
   }
 }

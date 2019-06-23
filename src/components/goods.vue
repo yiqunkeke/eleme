@@ -171,6 +171,7 @@ export default {
       // 驱动购物车cart组件的 drop() 函数---> 实现小球飞入动画
       this.$refs.cart.drop(el)
     },
+    // 跳转商品详情
     handleFood(food) {
       this.curFood = food
       this._showFood()
@@ -184,6 +185,9 @@ export default {
         $events: {
           leave: () => {
             this._hideCartSticky()
+          },
+          add: (el) => {
+            this.cartStickyComp.drop(el)
           }
         }
       })
@@ -191,14 +195,16 @@ export default {
     },
     _showCartSticky() {
       this.cartStickyComp = this.cartStickyComp || this.$createCartSticky({
-        selectFoods: this.selectFoods,
-        deliveryPrice: this.seller.deliveryPrice,
-        minPrice: this.seller.minPrice,
-        fold: true
+        $props: {
+          selectFoods: 'selectFoods',
+          deliveryPrice: this.seller.deliveryPrice,
+          minPrice: this.seller.minPrice,
+          fold: true
+        }
       })
       this.cartStickyComp.show()
     },
-    _hideCartSticky(){
+    _hideCartSticky() {
       this.cartStickyComp.hide()
     }
   }
