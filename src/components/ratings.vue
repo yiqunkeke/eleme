@@ -1,5 +1,6 @@
 <template>
-  <cube-scroll class="ratings" :options="scrollOptions">
+  <!-- 把变化的数据作为:data 传入cube-scroll好处：cube-scroll可以监听数据变化，使得可以根据数据变化来滚动流畅  -->
+  <cube-scroll class="ratings" :options="scrollOptions" :data="computedRatings">
     <div class="ratings-content">
       <div class="overview">
         <div class="overview-left">
@@ -45,9 +46,17 @@
         </div>
       </div>
       <Split />
+      <!-- 评价选择组件 -->
+      <RatingSelect :ratings="ratings"
+                    :onlyContent="onlyContent"
+                    :selectType="selectType"
+                    @select="onSelect"
+                    @toggle="onToggle"
+                    v-if="ratings.length"
+                   />
       <div class="rating-wrapper">
         <ul>
-          <li v-for="(rating, idx) in ratings"
+          <li v-for="(rating, idx) in computedRatings"
               :key="idx"
               class="rating-item border-bottom-1px"
               >
@@ -83,10 +92,13 @@
 <script>
 import Star from 'components/star.vue'
 import Split from 'components/split.vue'
+import RatingSelect from 'components/ratingSelect.vue'
 import moment from 'moment'
 import { getRatings } from 'api'
+import ratingMixin from 'js/mixins/rating'
 
 export default {
+  mixins: [ ratingMixin ],
   props: {
     data: {
       type: Object,
@@ -111,7 +123,8 @@ export default {
   },
   components: {
     Star,
-    Split
+    Split,
+    RatingSelect
   },
   methods: {
     fetch() {
