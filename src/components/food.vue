@@ -1,5 +1,5 @@
 <template>
-  <transition name="move">
+  <transition name="move" @after-leave="afterLeave">
     <div class="food" v-show="visible">
       <cube-scroll ref="scroll">
         <div class="food-content">
@@ -27,6 +27,15 @@
                 ￥{{food.oldPrice}}
               </span>
             </div>
+            <div class="cart-control-wrapper">
+              <!-- 步进器 -->
+              <Stepper :food="food"/>
+            </div>
+            <transition name="fade">
+              <div class="buy" v-show="!food.count" @click.stop="addFirst">
+                加入购物车
+              </div>
+            </transition>
           </div>
           <!-- 分隔 -->
           <Split v-show="food.info"/>
@@ -45,14 +54,17 @@
 <script>
 import popupMixin from 'js/mixins/popup'
 import Split from 'components/split.vue'
+import Stepper from 'components/stepper.vue'
 
 const EVENT_SHOW = 'show'
+const EVENT_LEAVE = 'leave'
 
 export default {
   mixins: [ popupMixin ],
   name: 'food',
   components: {
-    Split
+    Split,
+    Stepper
   },
   created() {
     this.$on(EVENT_SHOW, () => {
@@ -67,6 +79,15 @@ export default {
       default() {
         return {}
       }
+    }
+  },
+  methods: {
+    afterLeave() {
+      this.$emit(EVENT_LEAVE)
+    },
+    addFirst() {
+      this.$set(this.food, 'count', 1)
+      this.$emit(EVENT_ADD, event.target)
     }
   }
 }

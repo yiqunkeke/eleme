@@ -174,14 +174,32 @@ export default {
     handleFood(food) {
       this.curFood = food
       this._showFood()
+      this._showCartSticky()
     },
     _showFood() {
       this.foodComp = this.foodComp || this.$createFood({
         $props: {
           food: 'curFood'
+        },
+        $events: {
+          leave: () => {
+            this._hideCartSticky()
+          }
         }
       })
       this.foodComp.show()
+    },
+    _showCartSticky() {
+      this.cartStickyComp = this.cartStickyComp || this.$createCartSticky({
+        selectFoods: this.selectFoods,
+        deliveryPrice: this.seller.deliveryPrice,
+        minPrice: this.seller.minPrice,
+        fold: true
+      })
+      this.cartStickyComp.show()
+    },
+    _hideCartSticky(){
+      this.cartStickyComp.hide()
     }
   }
 }
