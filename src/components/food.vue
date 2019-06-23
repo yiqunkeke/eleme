@@ -47,9 +47,17 @@
           <Split />
           <div class="rating">
             <h1 class="title">商品评价</h1>
+            <!-- 评价选择组件 -->
+            <RatingSelect :ratings="ratings"
+                          :onlyContent="onlyContent"
+                          :selectType="selectType"
+                          :desc="desc"
+                          @select="onSelect"
+                          @toggle="onToggle"
+                          />
             <div class="rating-wrapper">
               <ul v-show="ratings && ratings.length">
-                <li v-for="(rating, idx) in ratings"
+                <li v-for="(rating, idx) in computedRatings"
                   :key="idx"
                   class="rating-item border-bottom-1px"
                 >
@@ -77,18 +85,21 @@
 import popupMixin from 'js/mixins/popup'
 import Split from 'components/split.vue'
 import Stepper from 'components/stepper.vue'
+import RatingSelect from 'components/ratingSelect.vue'
 import moment from 'moment' // npm i moment --save 来格式化时间戳
 
 const EVENT_SHOW = 'show'
 const EVENT_LEAVE = 'leave'
 const EVENT_ADD = 'add'
+const ALL = 2
 
 export default {
   mixins: [ popupMixin ],
   name: 'food',
   components: {
     Split,
-    Stepper
+    Stepper,
+    RatingSelect
   },
   created() {
     this.$on(EVENT_SHOW, () => {
@@ -108,6 +119,29 @@ export default {
   computed: {
     ratings() {
       return this.food.ratings
+    },
+    computedRatings() {
+      let ret = []
+      this.ratings.forEach(rating => {
+        if (this.onlyContent && !rating.text) {
+          return
+        }
+        if (this.selectType === ALL || this.selectType === rating.rateType) {
+          ret.push(rating)
+        }
+      })
+      return ret
+    }
+  },
+  data() {
+    return {
+      onlyContent: true,
+      selectType: ALL,
+      desc: {
+        all: '全部',
+        positive: '推荐',
+        negative: '吐槽'
+      }
     }
   },
   methods: {
@@ -125,6 +159,12 @@ export default {
     // http://momentjs.cn/   官网文档
     format(time) {
       return moment(time).format('YYYY-MM-DD hh:mm')
+    },
+    onSelect(type) {
+      this.selectType = type
+    },
+    onToggle() {
+      this.onlyContent = !this.onlyContent
     }
   }
 }
