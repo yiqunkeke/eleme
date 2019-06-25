@@ -28,7 +28,7 @@
             </div>
           </li>
         </ul>
-        <div class="favorite">
+        <div class="favorite" @click="toggleFavorite">
           <span class="icon-favorite" :class="{'active': favorite}"></span>
           <span class="text">{{favoriteText}}</span>
         </div>
@@ -85,6 +85,10 @@
 import Star from 'components/star.vue'
 import Split from 'components/split.vue'
 import Icon from 'components/icon.vue'
+import { saveToLocal, loadFromLocal } from 'js/storage'
+
+const KEY = 'favorite'
+
 export default {
   props: {
     data: {
@@ -120,6 +124,15 @@ export default {
     Star,
     Split,
     Icon
+  },
+  created() {
+    this.favorite = loadFromLocal(this.seller.id, KEY, false) // 从localStorage中读取
+  },
+  methods: {
+    toggleFavorite() {
+      this.favorite = !this.favorite
+      saveToLocal(this.seller.id, KEY, this.favorite) // 写入localstorage中去
+    }
   }
 }
 </script>

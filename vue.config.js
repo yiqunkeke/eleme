@@ -31,9 +31,10 @@ module.exports = {
     before(app, server) {
       // 定义接口地址
       app.get('/api/seller', function(req, res) {
+        const id = req.query.id
         res.json({
           code: 0,
-          data: seller
+          data: Object.assign({}, seller, { id })
         })
       })
       app.get('/api/goods', function(req, res) {

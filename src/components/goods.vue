@@ -162,7 +162,9 @@ export default {
       if (!this.fetched) {
         // 使用 fetched 标志位来判断数据是否获取过。达到来回切换三个tab时，不会重复发送网络请求
         this.fetched = true
-        getGoods().then(goods => {
+        getGoods({
+          id: this.seller.id
+        }).then(goods => {
           this.goods = goods
         })
       }
